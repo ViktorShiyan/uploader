@@ -1,0 +1,16 @@
+server.port: 8080
+spring:
+  liquibase:
+    url: jdbc:postgresql://localhost:5433/uploader
+    user: test
+    password: testpass
+  datasource:
+    url: jdbc:postgresql://localhost:5433/uploader
+    username: test
+    password: testpass
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
