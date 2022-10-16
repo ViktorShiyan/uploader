@@ -1,5 +1,10 @@
 server.port: 8080
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 785445900
+      max-request-size: 785445900
   liquibase:
     url: jdbc:postgresql://localhost:5433/uploader
     user: test
@@ -14,3 +19,8 @@ spring:
         show_sql: false
         format_sql: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+kafka:
+  bootstrapAddress: localhost:9092
+  producer-id: medicine_id

@@ -12,6 +12,12 @@ import ru.viktorshiyan.uploader.services.excel.FileParser;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+/**
+ * Контроллер для загрузки файла
+ *
+ * @author Viktor Shiyan
+ * @since 14.10.2022
+ */
 @RestController
 @RequestMapping("/upload")
 @Slf4j

@@ -9,6 +9,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * Конфигурация для OpenApi
+ *
+ * @author Viktor Shiyan
+ * @since 14.10.2022
+ */
 @Configuration
 @EnableSwagger2
 @AllArgsConstructor
