@@ -24,3 +24,6 @@ spring:
 kafka:
   bootstrapAddress: localhost:9092
   producer-id: medicine_id
+scraping:
+  price-list: "Pricelims.aspx"
+  host: "https://grls.rosminzdrav.ru/"

@@ -2,11 +2,11 @@ package ru.viktorshiyan.uploader.services.excel;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +14,7 @@ import ru.viktorshiyan.uploader.dto.MedicineDto;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import static ru.viktorshiyan.uploader.util.Constants.TOPIC_MEDICINE;
 
@@ -37,8 +38,12 @@ public class FileParser {
     public void parse(MultipartFile file) throws IOException {
         log.info("Start parse file");
         BufferedInputStream fileInputStream = new BufferedInputStream(file.getInputStream());
+        this.parse(fileInputStream);
+    }
+
+    public void parse(InputStream inputStream) throws IOException {
         log.info("BufferedInputStream ready");
-        Workbook workbook = new XSSFWorkbook(fileInputStream);
+        Workbook workbook = new HSSFWorkbook(inputStream);
         log.info("Workbook ready");
 
         Sheet sheet = workbook.getSheetAt(0);
@@ -65,6 +70,7 @@ public class FileParser {
             if (medicineDto.getBarcode() == null) continue;
             sendMessage(medicineDto);
         }
+        log.info("Parsing done");
     }
 
     private void setValueFromIndex(int index, MedicineDto medicineDto, String value) {
