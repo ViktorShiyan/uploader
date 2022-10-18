@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -43,7 +44,7 @@ public class ScrapingService {
     private String priceList;
     private final FileParser fileParser;
 
-    @Scheduled(initialDelay = 1L, fixedDelay = Long.MAX_VALUE)
+    @Scheduled(cron = "0 0 7 ? * *")
     public void startScraping() throws IOException {
         log.info("Start scraping");
         File file = restTemplate.execute(host + getHrefForFile(), HttpMethod.GET, null, clientHttpResponse -> {
