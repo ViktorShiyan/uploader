@@ -20,6 +20,15 @@ spring:
         show_sql: false
         format_sql: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
 
 
 kafka:
