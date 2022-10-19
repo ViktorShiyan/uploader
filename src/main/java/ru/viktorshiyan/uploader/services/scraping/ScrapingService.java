@@ -14,12 +14,12 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
 import ru.viktorshiyan.uploader.services.excel.FileParser;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
@@ -84,5 +84,10 @@ public class ScrapingService {
         String href = a.attr("href");
         log.info("Href <a> = {}", href);
         return href;
+    }
+
+    @Scheduled(initialDelay = 10_000, fixedDelay = Long.MAX_VALUE)
+    private void initScraping() throws IOException {
+        startScraping();
     }
 }
