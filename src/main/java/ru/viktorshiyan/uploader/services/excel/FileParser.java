@@ -3,10 +3,7 @@ package ru.viktorshiyan.uploader.services.excel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +12,8 @@ import ru.viktorshiyan.uploader.dto.MedicineDto;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static ru.viktorshiyan.uploader.util.Constants.TOPIC_MEDICINE;
 
@@ -29,6 +28,8 @@ import static ru.viktorshiyan.uploader.util.Constants.TOPIC_MEDICINE;
 @RequiredArgsConstructor
 public class FileParser {
     private final KafkaTemplate<Long, MedicineDto> kafkaTemplate;
+
+    private static final SimpleDateFormat dmyFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     public void sendMessage(MedicineDto msg) {
         log.info("Send message: message = {}", msg);
@@ -61,7 +62,12 @@ public class FileParser {
                         this.setValueFromIndex(j, medicineDto, cell.getStringCellValue());
                         break;
                     case NUMERIC:
-                        this.setValueFromIndex(j, medicineDto, String.valueOf(cell.getNumericCellValue()));
+                        if (DateUtil.isCellDateFormatted(cell)) {
+                            Date dateCellValue = cell.getDateCellValue();
+                            this.setValueFromIndex(j,medicineDto, dmyFormat.format(dateCellValue));
+                        }else {
+                            this.setValueFromIndex(j, medicineDto, String.valueOf(cell.getNumericCellValue()));
+                        }
                         break;
                 }
                 j++;
