@@ -64,8 +64,8 @@ public class FileParser {
                     case NUMERIC:
                         if (DateUtil.isCellDateFormatted(cell)) {
                             Date dateCellValue = cell.getDateCellValue();
-                            this.setValueFromIndex(j,medicineDto, dmyFormat.format(dateCellValue));
-                        }else {
+                            this.setValueFromIndex(j, medicineDto, dmyFormat.format(dateCellValue));
+                        } else {
                             this.setValueFromIndex(j, medicineDto, String.valueOf(cell.getNumericCellValue()));
                         }
                         break;
