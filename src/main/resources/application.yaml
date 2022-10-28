@@ -9,6 +9,8 @@ spring:
     url: jdbc:postgresql://localhost:5433/uploader
     user: test
     password: testpass
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
     url: jdbc:postgresql://localhost:5433/uploader
     username: test

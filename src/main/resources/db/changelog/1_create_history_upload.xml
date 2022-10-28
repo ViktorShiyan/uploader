@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create_table_medicine" author="viktor_shiyan">
+        <createTable tableName="history_upload">
+            <column name="id" type="uuid" >
+                <constraints primaryKeyName="history_upload_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="file_name" type="varchar"/>
+            <column name="update_time" type="date"/>
+        </createTable>
+        <modifySql dbms="postgresql"/>
+    </changeSet>
+</databaseChangeLog>

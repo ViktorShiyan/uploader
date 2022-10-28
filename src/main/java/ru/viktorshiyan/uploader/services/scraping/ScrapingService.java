@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
 import ru.viktorshiyan.uploader.services.excel.FileParser;
+import ru.viktorshiyan.uploader.services.history.HistoryUploadService;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,6 +44,8 @@ public class ScrapingService {
     private String priceList;
     private final FileParser fileParser;
 
+    private final HistoryUploadService historyUploadService;
+
     @Scheduled(cron = "0 0 7 ? * *")
     public void startScraping() throws IOException {
         log.info("Start scraping");
@@ -55,12 +57,12 @@ public class ScrapingService {
         if (file == null) {
             throw new RuntimeException("File not found");
         }
-        log.info("File name = {}", file.getName());
         ZipInputStream zis = new ZipInputStream(new FileInputStream(file));
         ZipFile zipFile = new ZipFile(file);
         ZipEntry zipEntry = zis.getNextEntry();
         while (zipEntry != null) {
-            log.info(zipEntry.getName());
+            log.info("File name = {}",zipEntry.getName());
+            historyUploadService.createHistory(zipEntry.getName());
             fileParser.parse(zipFile.getInputStream(zipEntry));
             zipEntry = zis.getNextEntry();
         }
